@@ -3,12 +3,14 @@ package stdlib
 
 import (
 	"encoding/base64"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"maps"
 	"net/url"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 
 	"github.com/ohler55/ojg/jp"
@@ -79,9 +81,13 @@ var encoding = map[string]any{
 	"from_json":      jsonDecode,
 	"from_yaml":      yamlDecode,
 	"from_base64":    base64Decode,
+	"from_hex":       hexDecode,
+	"from_hexnum":    hexNumDecode,
 	"from_URLbase64": base64URLDecode,
 	"to_json":        jsonEncode,
 	"to_base64":      base64Encode,
+	"to_hex":         hexEncode,
+	"to_hexnum":      hexNumEncode,
 	"to_URLbase64":   base64URLEncode,
 	"url_encode":     urlEncode,
 	"url_decode":     urlDecode,
@@ -473,6 +479,35 @@ func base64URLEncode(in string) (string, error) {
 func base64Encode(in string) (string, error) {
 	encoded := base64.StdEncoding.EncodeToString([]byte(in))
 	return encoded, nil
+}
+
+func hexEncode(in string) (string, error) {
+	return hex.EncodeToString([]byte(in)), nil
+}
+
+func hexDecode(in string) (string, error) {
+	decoded, err := hex.DecodeString(in)
+	if err != nil {
+		return "", err
+	}
+	return string(decoded), nil
+}
+
+func hexNumEncode(in int64) (string, error) {
+	return strconv.FormatInt(in, 16), nil
+}
+
+// hexNumDecode parses a base-16 integer, allowing an optional 0x or 0X prefix
+// (after an optional sign).
+func hexNumDecode(in string) (int64, error) {
+	sign, rest := "", in
+	if len(rest) > 0 && (rest[0] == '-' || rest[0] == '+') {
+		sign, rest = rest[:1], rest[1:]
+	}
+	if len(rest) > 2 && rest[0] == '0' && (rest[1] == 'x' || rest[1] == 'X') {
+		rest = rest[2:]
+	}
+	return strconv.ParseInt(sign+rest, 16, 64)
 }
 
 func urlEncode(in string) (string, error) {

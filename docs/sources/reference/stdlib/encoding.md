@@ -26,6 +26,33 @@ encoding.from_base64("dGFuZ2VyaW5l")
 tangerine
 ```
 
+## `encoding.from_hex`
+
+The `encoding.from_hex` function decodes a hexadecimal-encoded string into the original string.
+
+`encoding.from_hex` fails if the provided string argument contains invalid hexadecimal data.
+
+### Example `encoding.from_hex`
+
+```alloy
+encoding.from_hex("68656c6c6f")
+hello
+```
+
+## `encoding.from_hexnum`
+
+The `encoding.from_hexnum` function parses a base-16 integer string into an integer.
+The string can have an optional `0x` or `0X` prefix and an optional leading sign.
+
+`encoding.from_hexnum` fails if the provided string argument isn't a valid hexadecimal number that fits in a 64-bit signed integer.
+
+### Example `encoding.from_hexnum`
+
+```alloy
+encoding.from_hexnum("0a2024db")
+169878747
+```
+
 ## `encoding.from_URLbase64`
 
 The `encoding.from_URLbase64` function decodes a RFC4648-compliant Base64 URL safe encoded string into the original string.
@@ -48,6 +75,28 @@ The `encoding.to_base64` function encodes the original string into RFC4648-compl
 ```alloy
 encoding.to_base64("string123!?$*&()'-=@~")
 c3RyaW5nMTIzIT8kKiYoKSctPUB+
+```
+
+## `encoding.to_hex`
+
+The `encoding.to_hex` function encodes the original string into a lowercase hexadecimal string.
+
+### Example `encoding.to_hex`
+
+```alloy
+encoding.to_hex("hello")
+68656c6c6f
+```
+
+## `encoding.to_hexnum`
+
+The `encoding.to_hexnum` function formats an integer as a lowercase hexadecimal string, without a `0x` prefix.
+
+### Example `encoding.to_hexnum`
+
+```alloy
+encoding.to_hexnum(169878747)
+a2024db
 ```
 
 ## `encoding.to_URLbase64`

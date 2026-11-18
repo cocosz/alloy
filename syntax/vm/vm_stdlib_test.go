@@ -43,6 +43,12 @@ func TestVM_Stdlib(t *testing.T) {
 		{"encoding.from_URLbase64", `encoding.from_URLbase64("c3RyaW5nMTIzIT8kKiYoKSctPUB-")`, string(`string123!?$*&()'-=@~`)},
 		{"encoding.to_base64", `encoding.to_base64("string123!?$*&()'-=@~")`, string(`c3RyaW5nMTIzIT8kKiYoKSctPUB+`)},
 		{"encoding.to_URLbase64", `encoding.to_URLbase64("string123!?$*&()'-=@~")`, string(`c3RyaW5nMTIzIT8kKiYoKSctPUB-`)},
+		{"encoding.to_hex", `encoding.to_hex("hello")`, string("68656c6c6f")},
+		{"encoding.from_hex", `encoding.from_hex("68656c6c6f")`, string("hello")},
+		{"encoding.to_hexnum", `encoding.to_hexnum(169878747)`, string("a2024db")},
+		{"encoding.from_hexnum", `encoding.from_hexnum("0a2024db")`, int64(169878747)},
+		{"encoding.from_hexnum prefix", `encoding.from_hexnum("0xA2024DB")`, int64(169878747)},
+		{"encoding.from_hexnum negative", `encoding.from_hexnum("-0xff")`, int64(-255)},
 		{"encoding.url_encode", `encoding.url_encode("string123!?$*&()'-=@~")`, string(`string123%21%3F%24%2A%26%28%29%27-%3D%40~`)},
 		{"encoding.url_decode", `encoding.url_decode("string123%21%3F%24%2A%26%28%29%27-%3D%40~")`, string(`string123!?$*&()'-=@~`)},
 		{
